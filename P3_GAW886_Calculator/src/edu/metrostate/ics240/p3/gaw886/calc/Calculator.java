@@ -37,7 +37,6 @@ public class Calculator implements StackCalculator {
 				numberStack.push(input.performOperation(op1, op2, entry).toString());
 			}
 		}
-		System.out.println(numberStack);
 	}
 
 	@Override
