@@ -16,27 +16,16 @@ public class Calculator implements StackCalculator {
 
 	@Override
 	public void enter(String entry) {
-		Inputs input = new Inputs();
-		String op1 = null;
-		String op2 = null;
+		Entries input = new Entries(numberStack);
+
 		if (input.isDouble(entry)) {
 			numberStack.push(entry);
-		} else if (entry == "+" || entry == "-" || entry == "*" || entry == "/") {
-			if (this.isEmpty()) {
-				numberStack.clear();
-			}
-
-			else if (this.size() <= 1) {
-				op1 = numberStack.pop();
-				numberStack.push(input.performOperation(op1, entry).toString());
-			}
-
-			else if (this.size() > 1) {
-				op2 = numberStack.pop();
-				op1 = numberStack.pop();
-				numberStack.push(input.performOperation(op1, op2, entry).toString());
-			}
 		}
+
+		if (input.isOperator(entry)) {
+			input.performOperation(entry);
+		}
+		System.out.println(numberStack);
 	}
 
 	@Override

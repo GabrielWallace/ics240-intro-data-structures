@@ -27,85 +27,88 @@ public class CalculatorTests {
 		calc.enter("10");
 		calc.enter("5");
 		calc.enter("+");
-		assertEquals(15, calc.peek(), 20);
+		assertEquals(15, calc.peek(), 0);
 
 		calc.clear();
 		calc.enter("2.5");
 		calc.enter("2.25");
 		calc.enter("+");
-		assertEquals(4.75, calc.peek(), 20);
+		assertEquals(4.75, calc.peek(), 0);
 
 		// Test subtraction
 		calc.clear();
 		calc.enter("10");
 		calc.enter("5");
 		calc.enter("-");
-		assertEquals(5, calc.peek(), 20);
+		assertEquals(5, calc.peek(), 0);
 
 		calc.clear();
 		calc.enter("2");
 		calc.enter("1.25");
 		calc.enter("-");
-		assertEquals(0.75, calc.peek(), 20);
+		assertEquals(0.75, calc.peek(), 0);
 
 		// Test multiplication
 		calc.clear();
 		calc.enter("10");
 		calc.enter("5");
 		calc.enter("*");
-		assertEquals(50, calc.peek(), 20);
+		assertEquals(50, calc.peek(), 0);
 
 		calc.clear();
 		calc.enter("2.5");
 		calc.enter("2.5");
 		calc.enter("*");
-		assertEquals(6.25, calc.peek(), 20);
+		assertEquals(6.25, calc.peek(), 0);
 
 		// Test division
 		calc.clear();
 		calc.enter("10");
 		calc.enter("5");
 		calc.enter("/");
-		assertEquals(2, calc.peek(), 20);
+		assertEquals(2, calc.peek(), 0);
 
 		calc.clear();
 		calc.enter("4.5");
 		calc.enter("2.5");
 		calc.enter("/");
-		assertEquals(1.8, calc.peek(), 20);
+		assertEquals(1.8, calc.peek(), 0);
 	}
 
 	@Test
 	public void testEnterMethodSpecialCases() {
 		Calculator calc = new Calculator();
-		// Test single operator
-		calc.clear();
-		calc.enter("+");
-		assertEquals(0, calc.size());
+
+		// Test fail on no values single operator
+		try {
+			calc.enter("+");
+		} catch (NullPointerException npe) {
+			// expected
+		}
 
 		// Test single value/single operator addition
 		calc.clear();
 		calc.enter("5");
 		calc.enter("+");
-		assertEquals(10, calc.peek(), 2);
+		assertEquals(10, calc.peek(), 0);
 
 		// Test single value/single operator subtraction
 		calc.clear();
 		calc.enter("5");
 		calc.enter("-");
-		assertEquals(0, calc.peek(), 2);
+		assertEquals(0, calc.peek(), 0);
 
 		// Test single value/single operator multiplication
 		calc.clear();
 		calc.enter("5");
 		calc.enter("*");
-		assertEquals(25, calc.peek(), 2);
+		assertEquals(25, calc.peek(), 0);
 
 		// Test single value/single operator division
 		calc.clear();
 		calc.enter("5");
 		calc.enter("/");
-		assertEquals(1, calc.peek(), 2);
+		assertEquals(1, calc.peek(), 0);
 
 		// Test fail on division by 0
 		try {// Two distinct values
@@ -131,7 +134,7 @@ public class CalculatorTests {
 		calc.enter("256");
 		calc.enter("999");
 
-		assertEquals(999, calc.peek(), 2);
+		assertEquals(999, calc.peek(), 0);
 	}
 
 	@Test
@@ -143,7 +146,7 @@ public class CalculatorTests {
 
 		calc.pop();
 
-		assertEquals(256, calc.peek(), 2);
+		assertEquals(256, calc.peek(), 0);
 	}
 
 	@Test
