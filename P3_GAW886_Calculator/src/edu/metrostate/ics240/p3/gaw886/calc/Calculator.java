@@ -25,7 +25,6 @@ public class Calculator implements StackCalculator {
 		if (input.isOperator(entry)) {
 			input.performOperation(entry);
 		}
-		System.out.println(numberStack);
 	}
 
 	@Override
