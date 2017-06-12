@@ -46,13 +46,9 @@ public class Entries extends Calculator {
 	}
 
 	/**
-	 * Chooses the correct operation when given two distinct operands, op1 and
-	 * op2
+	 * Chooses the correct operation when given two distinct operands, operand 1
+	 * and operand 2
 	 * 
-	 * @param op1
-	 *            operand number one
-	 * @param op2
-	 *            operand number two
 	 * @param entry
 	 *            the provided operator
 	 * @return the calculated result
