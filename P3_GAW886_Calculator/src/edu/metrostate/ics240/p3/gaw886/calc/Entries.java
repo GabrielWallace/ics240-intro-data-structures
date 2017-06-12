@@ -65,7 +65,7 @@ public class Entries extends Calculator {
 		} else if (this.size() == 1) {
 			ops[0] = this.pop();
 			ops[1] = ops[0];
-		} else if (numberStack.size() > 1) {
+		} else if (this.size() > 1) {
 			ops[1] = this.pop();
 			ops[0] = this.pop();
 		}
