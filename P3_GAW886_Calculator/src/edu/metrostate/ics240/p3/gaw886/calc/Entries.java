@@ -7,7 +7,7 @@ public class Entries extends Calculator {
 
 	/**
 	 * Creates a new Inputs object that will check for inputs as Double and
-	 * choose the appropriate mathematical operation based on the user input.
+	 * choose the appropriate mathematical operation based on the user input
 	 */
 	public Entries(Stack<String> numStack) {
 		numberStack = numStack;
@@ -18,13 +18,15 @@ public class Entries extends Calculator {
 	 * 
 	 * @param entry
 	 *            the provided input as a String
-	 * @return true if entry can be parsed to Double, otherwise false.
+	 * @throws NumberFormatException
+	 *             If entry cannot be parsed to Double
+	 * @return true if entry can be parsed to Double, otherwise false
 	 */
 	public boolean isDouble(String entry) {
 		try {
 			Double.parseDouble(entry);
 			return true;
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException nfe) {
 			return false;
 		}
 	}
@@ -34,13 +36,19 @@ public class Entries extends Calculator {
 	 * 
 	 * @param entry
 	 *            the provided input as a String
-	 * @return true if entry is an operator otherwise false.
+	 * @throws IllegalArgumentException
+	 *             If entry is an illegal or non-operator character
+	 * @return true if entry is an operator otherwise false
 	 */
 	public boolean isOperator(String entry) {
 		String opPattern = "[-+*/]";
-		if (entry.matches(opPattern)) {
-			return true;
-		} else {
+		try {
+			if (entry.matches(opPattern)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (IllegalArgumentException iae) {
 			return false;
 		}
 	}
@@ -51,6 +59,10 @@ public class Entries extends Calculator {
 	 * 
 	 * @param entry
 	 *            the provided operator
+	 * @throws NullPointerException
+	 *             If An operator is passed with no values in the calculator
+	 * @throws IllegalArgumentException
+	 *             Division by 0
 	 * @return the calculated result
 	 */
 	public void performOperation(String entry) {

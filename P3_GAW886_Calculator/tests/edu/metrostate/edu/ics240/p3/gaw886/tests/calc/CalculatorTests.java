@@ -79,13 +79,6 @@ public class CalculatorTests {
 	public void testEnterMethodSpecialCases() {
 		Calculator calc = new Calculator();
 
-		// Test fail on no values single operator
-		try {
-			calc.enter("+");
-		} catch (NullPointerException npe) {
-			// expected
-		}
-
 		// Test single value/single operator addition
 		calc.clear();
 		calc.enter("5");
@@ -110,6 +103,26 @@ public class CalculatorTests {
 		calc.enter("/");
 		assertEquals(1, calc.peek(), 0);
 
+		// Test fail on no values single operator
+		try {
+			calc.enter("+");
+		} catch (NullPointerException npe) {
+			// expected
+		}
+		// Test fail on illegal double value
+		try {
+			calc.enter("45y.98");
+	    } catch (NullPointerException npe) {
+			// expected
+		}
+		
+		// Test fail on illegal operator
+		try {
+			calc.enter("h");
+		} catch (NullPointerException npe) {
+			// expected
+		}
+		
 		// Test fail on division by 0
 		try {// Two distinct values
 			calc.enter("2");
