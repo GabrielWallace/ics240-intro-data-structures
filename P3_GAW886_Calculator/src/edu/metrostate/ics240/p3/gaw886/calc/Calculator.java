@@ -3,9 +3,11 @@ package edu.metrostate.ics240.p3.gaw886.calc;
 import java.util.EmptyStackException;
 import java.util.Stack;
 
+import org.junit.experimental.theories.Theories;
+
 public class Calculator implements StackCalculator {
-	Stack<String> numberStack;
-	String topValue = null;
+	protected Stack<String> numberStack;
+	private String topValue = null;
 
 	/**
 	 * Creates a new Calculator object with a new Stack to hold the values
@@ -16,7 +18,7 @@ public class Calculator implements StackCalculator {
 
 	@Override
 	public void enter(String entry) {
-		Entries input = new Entries(numberStack);
+		Entry input = new Entry(numberStack);
 
 		if (input.isDouble(entry)) {
 			numberStack.push(entry);
@@ -39,10 +41,10 @@ public class Calculator implements StackCalculator {
 
 	@Override
 	public double pop() {
-		topValue = numberStack.get(this.size() - 1);
 		if (this.isEmpty()) {
 			throw new EmptyStackException();
 		} else {
+			topValue = numberStack.get(this.size() - 1);
 			numberStack.remove(topValue);
 			return Double.parseDouble(topValue);
 		}

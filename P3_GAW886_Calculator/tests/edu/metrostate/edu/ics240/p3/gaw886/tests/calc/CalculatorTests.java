@@ -7,10 +7,10 @@ import java.util.Random;
 import edu.metrostate.ics240.p3.gaw886.calc.Calculator;
 
 public class CalculatorTests {
-	static Random r = new Random();
 
 	@Test
 	public void testEnterMethod() {
+		Random r = new Random();
 		Calculator calc = new Calculator();
 
 		// Add 100 random doubles to the stack
@@ -26,7 +26,7 @@ public class CalculatorTests {
 		calc.enter("5");
 		calc.enter("+");
 		assertEquals(15, calc.peek(), 0);
-
+		
 		calc.clear();
 		calc.enter("2.5");
 		calc.enter("2.25");
@@ -100,7 +100,22 @@ public class CalculatorTests {
 		calc.enter("5");
 		calc.enter("/");
 		assertEquals(1, calc.peek(), 0);
-
+		
+		// Test multiple values/multiple operators
+		calc.enter("5");
+		calc.enter("5");
+		calc.enter("5");
+		calc.enter("5");
+		calc.enter("5");
+		calc.enter("+");
+		assertEquals(10, calc.peek(), 0);
+		calc.enter("+");
+		assertEquals(15, calc.peek(), 0);
+		calc.enter("+");
+		assertEquals(20, calc.peek(), 0);
+		calc.enter("+");
+		assertEquals(25, calc.peek(), 0);
+		
 		// Test fail on no values single operator
 		try {
 			calc.enter("+");
