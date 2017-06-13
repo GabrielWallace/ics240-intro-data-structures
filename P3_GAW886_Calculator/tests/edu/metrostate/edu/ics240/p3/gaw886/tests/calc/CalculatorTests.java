@@ -1,11 +1,9 @@
 package edu.metrostate.edu.ics240.p3.gaw886.tests.calc;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
 import java.math.BigInteger;
 import java.util.Random;
-
 import edu.metrostate.ics240.p3.gaw886.calc.Calculator;
 
 public class CalculatorTests {
@@ -109,20 +107,21 @@ public class CalculatorTests {
 		} catch (NullPointerException npe) {
 			// expected
 		}
+		
 		// Test fail on illegal double value
 		try {
 			calc.enter("45y.98");
-	    } catch (NullPointerException npe) {
+		} catch (NullPointerException npe) {
 			// expected
 		}
-		
+
 		// Test fail on illegal operator
 		try {
 			calc.enter("h");
 		} catch (NullPointerException npe) {
 			// expected
 		}
-		
+
 		// Test fail on division by 0
 		try {// Two distinct values
 			calc.enter("2");

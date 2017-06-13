@@ -3,11 +3,13 @@ package edu.metrostate.ics240.p3.gaw886.calc;
 import java.util.Stack;
 
 public class Entries extends Calculator {
-	Double[] ops;
 
 	/**
 	 * Creates a new Inputs object that will check for inputs as Double and
 	 * choose the appropriate mathematical operation based on the user input
+	 * 
+	 * @param numStack
+	 *            the Stack passed from Calculator()
 	 */
 	public Entries(Stack<String> numStack) {
 		numberStack = numStack;
@@ -32,7 +34,7 @@ public class Entries extends Calculator {
 	}
 
 	/**
-	 * Checks the entry for operators (+ - * /)
+	 * Checks the entry for operators [+, -, *, /]
 	 * 
 	 * @param entry
 	 *            the provided input as a String
@@ -41,7 +43,7 @@ public class Entries extends Calculator {
 	 * @return true if entry is an operator otherwise false
 	 */
 	public boolean isOperator(String entry) {
-		String opPattern = "[-+*/]";
+		final String opPattern = "[-+*/]";
 		try {
 			if (entry.matches(opPattern)) {
 				return true;
@@ -67,7 +69,7 @@ public class Entries extends Calculator {
 	 */
 	public void performOperation(String entry) {
 		Double result = 0.0;
-		ops = new Double[2];
+		Double[] ops = new Double[2];
 		if (this.isEmpty()) {
 			throw new NullPointerException("The stack has no values");
 		} else if (this.size() == 1) {

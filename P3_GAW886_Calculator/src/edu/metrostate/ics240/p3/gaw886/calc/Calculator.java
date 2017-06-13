@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class Calculator implements StackCalculator {
 	Stack<String> numberStack;
-	String topValue;
+	String topValue = null;
 
 	/**
 	 * Creates a new Calculator object with a new Stack to hold the values
@@ -68,7 +68,7 @@ public class Calculator implements StackCalculator {
 	@Override
 	public int size() {
 		int stackSize = 0;
-		for (String number : numberStack) {
+		for (String entry : numberStack) {
 			stackSize++;
 		}
 		return stackSize;
