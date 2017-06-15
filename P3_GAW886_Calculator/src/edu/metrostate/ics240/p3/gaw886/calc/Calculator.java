@@ -69,7 +69,7 @@ public class Calculator implements StackCalculator {
 		return stackSize;
 	}
 
-	@Override
+
 	public boolean isDouble(String entry) {
 		try {
 			Double.parseDouble(entry);
@@ -79,7 +79,7 @@ public class Calculator implements StackCalculator {
 		}
 	}
 
-	@Override
+
 	public boolean isOperator(String entry) {
 		final String opPattern = "[-+*/]";
 		try {
@@ -93,7 +93,7 @@ public class Calculator implements StackCalculator {
 		}
 	}
 
-	@Override
+
 	public void performOperation(String operator) {
 		Double result = 0.0;
 		Double[] ops = new Double[2];
