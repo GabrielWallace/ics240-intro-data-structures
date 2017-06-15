@@ -26,7 +26,7 @@ public class CalculatorTests {
 		calc.enter("5");
 		calc.enter("+");
 		assertEquals(15, calc.peek(), 0);
-		
+
 		calc.clear();
 		calc.enter("2.5");
 		calc.enter("2.25");
@@ -100,7 +100,7 @@ public class CalculatorTests {
 		calc.enter("5");
 		calc.enter("/");
 		assertEquals(1, calc.peek(), 0);
-		
+
 		// Test multiple values/multiple operators
 		calc.enter("5");
 		calc.enter("5");
@@ -115,14 +115,14 @@ public class CalculatorTests {
 		assertEquals(20, calc.peek(), 0);
 		calc.enter("+");
 		assertEquals(25, calc.peek(), 0);
-		
+
 		// Test fail on no values single operator
 		try {
 			calc.enter("+");
 		} catch (NullPointerException npe) {
 			// expected
 		}
-		
+
 		// Test fail on illegal double value
 		try {
 			calc.enter("45y.98");
