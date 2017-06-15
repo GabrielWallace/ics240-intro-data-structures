@@ -171,7 +171,7 @@ public class CalculatorTests {
 		calc.enter("256");
 		calc.enter("999");
 
-		calc.pop();
+		assertEquals(999, calc.pop(), 0);
 
 		assertEquals(256, calc.peek(), 0);
 	}

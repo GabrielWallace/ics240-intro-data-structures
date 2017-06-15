@@ -17,7 +17,7 @@ public class Calculator implements StackCalculator {
 	public void enter(String entry) {
 
 		if (isDouble(entry)) {
-			numberStack.push(entry);
+			numberStack.addElement(entry);
 		}
 		if (isOperator(entry)) {
 			performOperation(entry);
@@ -38,16 +38,15 @@ public class Calculator implements StackCalculator {
 		if (this.isEmpty()) {
 			throw new EmptyStackException();
 		} else {
-			numberStack.remove(numberStack.get(this.size() - 1));
-			return Double.parseDouble(numberStack.get(this.size() - 1));
+			String poppedNum = numberStack.elementAt(this.size() - 1);
+			numberStack.remove(poppedNum);
+			return Double.parseDouble(poppedNum);
 		}
 	}
 
 	@Override
 	public void clear() {
-		for (int i = this.size(); i >= 1; i--) {
-			numberStack.remove(i - 1);
-		}
+		numberStack = new Stack<String>();
 	}
 
 	@Override
@@ -62,13 +61,13 @@ public class Calculator implements StackCalculator {
 	@SuppressWarnings("unused")
 	@Override
 	public int size() {
+		// TODO Optimize this method
 		int stackSize = 0;
 		for (String entry : numberStack) {
 			stackSize++;
 		}
 		return stackSize;
 	}
-
 
 	public boolean isDouble(String entry) {
 		try {
@@ -78,7 +77,6 @@ public class Calculator implements StackCalculator {
 			return false;
 		}
 	}
-
 
 	public boolean isOperator(String entry) {
 		final String opPattern = "[-+*/]";
@@ -92,7 +90,6 @@ public class Calculator implements StackCalculator {
 			return false;
 		}
 	}
-
 
 	public void performOperation(String operator) {
 		Double result = 0.0;
