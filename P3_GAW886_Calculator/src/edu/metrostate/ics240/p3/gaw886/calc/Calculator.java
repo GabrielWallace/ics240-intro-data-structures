@@ -4,129 +4,93 @@ import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class Calculator implements StackCalculator {
-	protected Stack<String> numberStack;
+	private Stack<Double> numberStack;
 
 	/**
 	 * Creates a new Calculator object with a new Stack to hold the values
 	 */
 	public Calculator() {
-		numberStack = new Stack<String>();
+		numberStack = new Stack<Double>();
 	}
 
 	@Override
 	public void enter(String entry) {
-
-		if (isDouble(entry)) {
-			numberStack.addElement(entry);
-		}
-		if (isOperator(entry)) {
+		if (entry.matches("[-+*/]")) {
 			performOperation(entry);
+		} else {
+			numberStack.push(Double.parseDouble(entry));
 		}
 	}
 
 	@Override
 	public double peek() {
-		if (this.isEmpty()) {
-			throw new EmptyStackException();
-		} else {
-			return Double.parseDouble(numberStack.get(this.size() - 1));
-		}
+		return numberStack.peek();
 	}
 
 	@Override
 	public double pop() {
-		if (this.isEmpty()) {
-			throw new EmptyStackException();
-		} else {
-			String poppedNum = numberStack.elementAt(this.size() - 1);
-			numberStack.remove(poppedNum);
-			return Double.parseDouble(poppedNum);
-		}
+		return numberStack.pop();
 	}
 
 	@Override
 	public void clear() {
-		numberStack = new Stack<String>();
+		numberStack.clear();
 	}
 
 	@Override
 	public boolean isEmpty() {
-		if (this.size() == 0) {
-			return true;
-		} else {
-			return false;
-		}
+		return numberStack.isEmpty();
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public int size() {
-		// TODO Optimize this method
-		int stackSize = 0;
-		for (String entry : numberStack) {
-			stackSize++;
-		}
-		return stackSize;
+		return numberStack.size();
 	}
 
-	public boolean isDouble(String entry) {
-		try {
-			Double.parseDouble(entry);
-			return true;
-		} catch (NumberFormatException nfe) {
-			return false;
-		}
-	}
-
-	public boolean isOperator(String entry) {
-		final String opPattern = "[-+*/]";
-		try {
-			if (entry.matches(opPattern)) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (IllegalArgumentException iae) {
-			return false;
-		}
-	}
-
-	public void performOperation(String operator) {
+	/*
+	 * Chooses the correct operation (+, -, /,or *), when given two distinct operands, ops[0]
+	 * and ops[1]
+	 * 
+	 * @param operator The provided operator
+	 * 
+	 * @throws EmptyStackException If An operator is passed with no values in
+	 * the calculator
+	 * 
+	 * 
+	 * @return the calculated result
+	 */
+	private void performOperation(String operator) {
 		Double result = 0.0;
 		Double[] ops = new Double[2];
 		if (this.isEmpty()) {
-			throw new NullPointerException("The stack has no values");
+			throw new EmptyStackException();
 		} else if (this.size() == 1) {
-			ops[0] = Double.parseDouble(numberStack.pop());
+			ops[0] = this.pop();
 			ops[1] = ops[0];
 		} else if (this.size() > 1) {
-			ops[1] = Double.parseDouble(numberStack.pop());
-			ops[0] = Double.parseDouble(numberStack.pop());
+			ops[1] = this.pop();
+			ops[0] = this.pop();
 		}
 
 		switch (operator) {
 		case "+":
 			result = ops[0] + ops[1];
-			numberStack.push(result.toString());
+			numberStack.push(result);
 			break;
 
 		case "-":
 			result = ops[0] - ops[1];
-			numberStack.push(result.toString());
+			numberStack.push(result);
 			break;
 
 		case "*":
 			result = ops[0] * ops[1];
-			numberStack.push(result.toString());
+			numberStack.push(result);
 			break;
 
 		case "/":
-			if (ops[1] == 0) {
-				throw new IllegalArgumentException("Argument 'divisor' is 0");
-			} else {
-				result = ops[0] / ops[1];
-				numberStack.push(result.toString());
-			}
+			result = ops[0] / ops[1];
+			numberStack.push(result);
 			break;
 		}
 	}

@@ -55,40 +55,4 @@ public interface StackCalculator {
 	 */
 	int size();
 
-	/**
-	 * Tries to parse the String entry to a Double
-	 * 
-	 * @param entry
-	 *            The provided input as a String
-	 * @throws NumberFormatException
-	 *             If entry cannot be parsed to Double
-	 * @return true if entry can be parsed to Double, otherwise false
-	 */
-	boolean isDouble(String entry);
-
-	/**
-	 * Checks the entry for operators [+, -, *, /]
-	 * 
-	 * @param entry
-	 *            The provided input as a String
-	 * @throws IllegalArgumentException
-	 *             If entry is an illegal or non-operator character
-	 * @return true if entry is an operator otherwise false
-	 */
-	boolean isOperator(String entry);
-
-	/**
-	 * Chooses the correct operation when given two distinct operands, operand 1
-	 * and operand 2
-	 * 
-	 * @param operator
-	 *            The provided operator
-	 * @throws NullPointerException
-	 *             If An operator is passed with no values in the calculator
-	 * @throws IllegalArgumentException
-	 *             Division by 0
-	 * @return the calculated result
-	 */
-	void performOperation(String operator);
-
 }
