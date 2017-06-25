@@ -1,9 +1,12 @@
 package edu.metrostate.ics240.p4.gaw886.sim;
 
+import java.io.File;
 import java.io.FileNotFoundException;
-
+import java.time.LocalTime;
+import java.util.Scanner;
 import edu.metrostate.ics240.p4.sim.Airport;
 import edu.metrostate.ics240.p4.sim.Event;
+import edu.metrostate.ics240.p4.sim.Event.EventType;
 
 public class AirportSimulator extends Airport {
 
@@ -33,9 +36,23 @@ public class AirportSimulator extends Airport {
 	}
 
 	public void processEventFile(String filename) {
-		// genEventFile("data/airportSim_01.txt");
-		genEventFile("data/airportSim_01.txt", 1.86, 2.56, 100);
-
+		LocalTime scheduledTime = null;
+		EventType eventType;
+		String flightID;
+		Flight flight;
+		
+		try (Scanner scanner = new Scanner(new File(filename)).useDelimiter(DELIM);) {
+			while (scanner.hasNext()) {
+				scheduledTime = LocalTime.parse(scanner.next());
+				eventType = EventType.valueOf(scanner.next());
+				flightID = scanner.next();
+				flight = new Flight(scheduledTime, eventType, flightID);
+				System.out.println(flight);
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public Event[] getFlightsHandled() {
