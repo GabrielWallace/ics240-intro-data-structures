@@ -3,6 +3,7 @@ package edu.metrostate.ics240.p4.gaw886.sim;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalTime;
+import java.util.PriorityQueue;
 import java.util.Scanner;
 import edu.metrostate.ics240.p4.sim.Airport;
 import edu.metrostate.ics240.p4.sim.Event;
@@ -10,6 +11,9 @@ import edu.metrostate.ics240.p4.sim.Event.EventType;
 
 public class AirportSimulator extends Airport {
 
+	Flight flight;
+	private PriorityQueue<Flight> flightQueue = new PriorityQueue<>();
+	
 	private int numRunways;
 	private int arrivalReserveTime;
 	private int departureReserveTime;
@@ -39,7 +43,6 @@ public class AirportSimulator extends Airport {
 		LocalTime scheduledTime = null;
 		EventType eventType;
 		String flightID;
-		Flight flight;
 		
 		try (Scanner scanner = new Scanner(new File(filename)).useDelimiter(DELIM);) {
 			while (scanner.hasNext()) {
@@ -47,16 +50,20 @@ public class AirportSimulator extends Airport {
 				eventType = EventType.valueOf(scanner.next());
 				flightID = scanner.next();
 				flight = new Flight(scheduledTime, eventType, flightID);
-				System.out.println(flight);
+				flightQueue.add(flight);
+				System.out.println(flightQueue.size());
+				System.out.println(flightQueue.peek());
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public Event[] getFlightsHandled() {
-		// TODO Auto-generated method stub
-		return null;
+		Event[] events = new Event[flightQueue.size()];
+		for (int i = 0; i < flightQueue.size(); i++){
+			events[i] = flightQueue.peek();
+		}
+		return events;
 	}
 }
