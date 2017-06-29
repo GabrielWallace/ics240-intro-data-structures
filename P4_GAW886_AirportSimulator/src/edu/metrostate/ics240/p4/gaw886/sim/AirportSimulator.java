@@ -11,13 +11,13 @@ import edu.metrostate.ics240.p4.sim.Event.EventType;
 
 public class AirportSimulator extends Airport {
 
-	Flight flight;
+	private Flight flight;
 	private PriorityQueue<Flight> flightQueue = new PriorityQueue<>();
-	
 	private int numRunways;
 	private int arrivalReserveTime;
 	private int departureReserveTime;
-
+	Runway[] runways = new Runway[numRunways];
+	
 	public AirportSimulator(int numRunways) {
 		if (numRunways < 1) {
 			throw new IllegalArgumentException("Number of runways must be 1 or greater.");
@@ -43,6 +43,7 @@ public class AirportSimulator extends Airport {
 		LocalTime scheduledTime = null;
 		EventType eventType;
 		String flightID;
+		Runway runway = new Runway();
 		
 		try (Scanner scanner = new Scanner(new File(filename)).useDelimiter(DELIM);) {
 			while (scanner.hasNext()) {
@@ -51,8 +52,9 @@ public class AirportSimulator extends Airport {
 				flightID = scanner.next();
 				flight = new Flight(scheduledTime, eventType, flightID);
 				flightQueue.add(flight);
-				System.out.println(flightQueue.size());
-				System.out.println(flightQueue.peek());
+				runways[0] = runway;
+				System.out.println(flightQueue.size()); // Debug line
+				System.out.println(flightQueue.peek()); // Debug line
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

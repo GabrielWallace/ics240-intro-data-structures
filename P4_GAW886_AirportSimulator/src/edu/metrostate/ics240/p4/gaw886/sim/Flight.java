@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import edu.metrostate.ics240.p4.sim.Airport;
 import edu.metrostate.ics240.p4.sim.Event;
 
-public class Flight implements Event, Comparable<Event.EventType> {
+public class Flight implements Event {
 	private LocalTime scheduledTime;
 	EventType eventType;
 	private String flightId;
@@ -53,9 +53,4 @@ public class Flight implements Event, Comparable<Event.EventType> {
 		return this.scheduledTime;
 	}
 
-	@Override
-	public int compareTo(EventType o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
