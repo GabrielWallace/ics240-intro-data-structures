@@ -10,13 +10,12 @@ import edu.metrostate.ics240.p4.sim.Event;
 import edu.metrostate.ics240.p4.sim.Event.EventType;
 
 public class AirportSimulator extends Airport {
-
-	private Flight flight;
-	private PriorityQueue<Flight> flightQueue = new PriorityQueue<>();
 	private int numRunways;
 	private int arrivalReserveTime;
 	private int departureReserveTime;
-	Runway[] runways = new Runway[numRunways];
+	private Flight flight;
+	private PriorityQueue<Flight> flightQueue = new PriorityQueue<>();
+	Runways[] runways = new Runways[numRunways];
 	
 	public AirportSimulator(int numRunways) {
 		if (numRunways < 1) {
@@ -43,14 +42,14 @@ public class AirportSimulator extends Airport {
 		LocalTime scheduledTime = null;
 		EventType eventType;
 		String flightID;
-		Runway runway = new Runway();
+		Runways runway = new Runways();
 		
 		try (Scanner scanner = new Scanner(new File(filename)).useDelimiter(DELIM);) {
 			while (scanner.hasNext()) {
 				scheduledTime = LocalTime.parse(scanner.next());
 				eventType = EventType.valueOf(scanner.next());
 				flightID = scanner.next();
-				flight = new Flight(scheduledTime, eventType, flightID);
+				flight = new Flight(scheduledTime, eventType, flightID).setPriority();
 				flightQueue.add(flight);
 				runways[0] = runway;
 				System.out.println(flightQueue.size()); // Debug line

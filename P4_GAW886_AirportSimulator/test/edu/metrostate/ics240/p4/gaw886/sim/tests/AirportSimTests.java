@@ -12,7 +12,7 @@ public class AirportSimTests {
 
 	@Test
 	public void testScenarioOne() {
-		//AirportSimulator.genEventFile("data\\airportSim_01.txt");
+		AirportSimulator.genEventFile("data\\airportSim_01.txt");
 		Event[] events;
 		AirportSimulator as = new AirportSimulator(10);
 		as.processEventFile("data/airportSim_01.txt");
