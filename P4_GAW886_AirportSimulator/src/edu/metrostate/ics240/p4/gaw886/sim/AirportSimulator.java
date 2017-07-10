@@ -15,7 +15,7 @@ public class AirportSimulator extends Airport {
 	private int departureReserveTime;
 	private Flight flight;
 	private PriorityQueue<Flight> flightQueue = new PriorityQueue<>();
-	Runways[] runways = new Runways[numRunways];
+	Runway[] runways;
 	
 	public AirportSimulator(int numRunways) {
 		if (numRunways < 1) {
@@ -25,6 +25,7 @@ public class AirportSimulator extends Airport {
 			this.arrivalReserveTime = ARR_RESERVE_TIME;
 			this.departureReserveTime = DEP_RESERVE_TIME;
 		}
+		runways = new Runway[numRunways];
 	}
 
 	public AirportSimulator(int numRunways, int arrivalReserveTime, int departureReserveTime) {
@@ -36,29 +37,36 @@ public class AirportSimulator extends Airport {
 			this.arrivalReserveTime = arrivalReserveTime;
 			this.departureReserveTime = departureReserveTime;
 		}
+		runways = new Runway[numRunways];
 	}
 
 	public void processEventFile(String filename) {
 		LocalTime scheduledTime = null;
 		EventType eventType;
 		String flightID;
-		Runways runway = new Runways();
-		
 		try (Scanner scanner = new Scanner(new File(filename)).useDelimiter(DELIM);) {
 			while (scanner.hasNext()) {
 				scheduledTime = LocalTime.parse(scanner.next());
 				eventType = EventType.valueOf(scanner.next());
 				flightID = scanner.next();
-				flight = new Flight(scheduledTime, eventType, flightID).setPriority();
+				flight = new Flight(scheduledTime, eventType, flightID);
 				flightQueue.add(flight);
-				runways[0] = runway;
 				System.out.println(flightQueue.size()); // Debug line
 				System.out.println(flightQueue.peek()); // Debug line
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		createRunways();
 	}
+
+	private void createRunways() {
+		for (int i = 0; i < numRunways; i++) {
+			this.runways[i] = new Runway();
+		}
+	}
+	
+	
 
 	public Event[] getFlightsHandled() {
 		Event[] events = new Event[flightQueue.size()];

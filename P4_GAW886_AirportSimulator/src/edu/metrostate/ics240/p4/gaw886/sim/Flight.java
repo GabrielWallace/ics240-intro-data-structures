@@ -1,12 +1,11 @@
 package edu.metrostate.ics240.p4.gaw886.sim;
 
 import java.time.LocalTime;
-import java.util.Comparator;
 
 import edu.metrostate.ics240.p4.sim.Airport;
 import edu.metrostate.ics240.p4.sim.Event;
 
-public class Flight implements Event, Comparator<Flight> {
+public class Flight implements Event {
 	private LocalTime scheduledTime;
 	EventType eventType;
 	private String flightId;
@@ -53,16 +52,4 @@ public class Flight implements Event, Comparator<Flight> {
 	public LocalTime getScheduledTime() {
 		return this.scheduledTime;
 	}
-
-	public Flight setPriority() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int compare(Flight o1, Flight o2) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 }
