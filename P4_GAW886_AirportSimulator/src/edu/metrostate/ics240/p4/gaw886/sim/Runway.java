@@ -7,8 +7,8 @@ public class Runway implements Comparable<Runway> {
 	Flight flight;
 	
 	public Runway() {
-		runwayEvent = EventType.RUNWAY_AVAIL;
-		flight = null;
+		this.runwayEvent = EventType.RUNWAY_AVAIL;
+		this.flight = null;
 	}
 	
 	public Boolean getAvailability() {
@@ -24,10 +24,17 @@ public class Runway implements Comparable<Runway> {
 			this.runwayEvent = EventType.RUNWAY_ASSIGN;
 		}
 	}
+	
+	public void unassignFlight() {
+		if (this.getAvailability() == false  && this.flight != null) {
+			this.flight = null;
+			this.runwayEvent = EventType.RUNWAY_AVAIL;
+		}
+	}
 
 	@Override
 	public int compareTo(Runway runway) {
-		if(this.getAvailability() == true) {
+		if(this.getAvailability() == true  && this.flight == null) {
 			return 1;
 		}
 		return -1;
