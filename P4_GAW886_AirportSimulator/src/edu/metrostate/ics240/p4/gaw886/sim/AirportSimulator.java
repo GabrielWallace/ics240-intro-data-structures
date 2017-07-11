@@ -1,4 +1,5 @@
 package edu.metrostate.ics240.p4.gaw886.sim;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,7 +24,7 @@ public class AirportSimulator extends Airport {
 	private PriorityQueue<Flight> flightQueue = new PriorityQueue<>();
 	PriorityQueue<Runway> runways = new PriorityQueue<>();
 	Event[] events;
-	
+
 	public AirportSimulator(int numRunways) {
 		if (numRunways < 1) {
 			throw new IllegalArgumentException("Number of runways must be 1 or greater.");
@@ -57,7 +58,7 @@ public class AirportSimulator extends Airport {
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-		} 
+		}
 	}
 
 	private void createRunways() {
@@ -69,7 +70,7 @@ public class AirportSimulator extends Airport {
 	public Event[] getFlightsHandled() {
 		events = new Event[flightQueue.size()];
 		int i = 0;
-		for(Flight flight : flightQueue) {
+		for (Flight flight : flightQueue) {
 			events[i++] = flight;
 		}
 		return events;

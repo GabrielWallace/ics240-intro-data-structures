@@ -16,22 +16,21 @@ public class AirportSimTests {
 
 	@Test
 	public void testScenarioOne() {
-		//Airport.genEventFile("data\\airportSim_01.txt");
+		// Airport.genEventFile("data\\airportSim_01.txt");
 		Event[] events;
 		AirportSimulator as = new AirportSimulator(10);
 		as.processEventFile("data\\airportSim_01.txt");
 		events = as.getFlightsHandled();
 		assertEquals(1, events.length);
-		for(Event event : events) {
+		for (Event event : events) {
 			System.out.println(event);
 		}
 		assertEquals(events[0].getScheduledTime(), events[0].getActualTime());
 	}
 
-/*	@Test
-	public void testRunway() {
-		AirportSimulator as = new AirportSimulator(10);
-		as.processEventFile("data\\airportSim_01.txt");
-	}*/
+	/*
+	 * @Test public void testRunway() { AirportSimulator as = new
+	 * AirportSimulator(10); as.processEventFile("data\\airportSim_01.txt"); }
+	 */
 
 }

@@ -11,19 +11,19 @@ public class Flight implements Event, Comparable<Flight> {
 	EventType eventType;
 	private String flightId;
 	private LocalTime actualTime;
-	
+
 	public Flight(String scheduledTime, String eventType, String flightId) {
 		this.scheduledTime = LocalTime.parse(scheduledTime);
 		this.eventType = EventType.valueOf(eventType);
 		this.flightId = flightId;
 		this.actualTime = setActualTime();
 	}
-	
-	private LocalTime setActualTime(){
+
+	private LocalTime setActualTime() {
 		actualTime = scheduledTime;
 		return actualTime;
 	}
-	
+
 	@Override
 	public LocalTime getActualTime() {
 		return this.actualTime;
