@@ -7,7 +7,7 @@ public class Runway {
 		this.flight = null;
 	}
 
-	public Boolean getAvailability() {
+	public Boolean isAvailable() {
 		if (this.flight == null) {
 			return true;
 		}
@@ -15,13 +15,13 @@ public class Runway {
 	}
 
 	public void assignFlight(Flight flight) {
-		if (this.getAvailability() == true) {
+		if (this.isAvailable() == true) {
 			this.flight = flight;
 		}
 	}
 
 	public void unassignFlight() {
-		if (this.getAvailability() == false) {
+		if (this.isAvailable() == false) {
 			this.flight = null;
 		}
 	}
