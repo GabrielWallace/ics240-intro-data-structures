@@ -22,8 +22,8 @@ public class AirportSimulator extends Airport {
 	private int departureReserveTime;
 	private Flight flight;
 	private PriorityQueue<Flight> flightQueue = new PriorityQueue<>();
-	PriorityQueue<Runway> runways = new PriorityQueue<>();
-	Event[] events;
+	private Runway[] runways;
+	private Event[] events;
 
 	public AirportSimulator(int numRunways) {
 		if (numRunways < 1) {
@@ -62,8 +62,9 @@ public class AirportSimulator extends Airport {
 	}
 
 	private void createRunways() {
+		runways = new Runway[numRunways];
 		for (int i = 0; i < numRunways; i++) {
-			runways.add(new Runway());
+			runways[i] = new Runway();
 		}
 	}
 

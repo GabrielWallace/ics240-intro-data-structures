@@ -8,7 +8,7 @@ import edu.metrostate.ics240.p4.sim.Event;
 
 public class Flight implements Event, Comparable<Flight> {
 	private LocalTime scheduledTime;
-	EventType eventType;
+	private EventType eventType;
 	private String flightId;
 	private LocalTime actualTime;
 
