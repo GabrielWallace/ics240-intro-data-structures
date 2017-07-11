@@ -1,30 +1,26 @@
 package edu.metrostate.ics240.p4.gaw886.sim;
 
 import java.time.LocalTime;
+import java.util.Collection;
 
 import edu.metrostate.ics240.p4.sim.Airport;
 import edu.metrostate.ics240.p4.sim.Event;
 
-public class Flight implements Event {
+public class Flight implements Event, Comparable<Flight> {
 	private LocalTime scheduledTime;
 	EventType eventType;
 	private String flightId;
 	private LocalTime actualTime;
-
 	
-	public Flight(LocalTime scheduledTime, EventType eventType, String flightId) {
-		this.scheduledTime = scheduledTime;
-		this.eventType = eventType;
+	public Flight(String scheduledTime, String eventType, String flightId) {
+		this.scheduledTime = LocalTime.parse(scheduledTime);
+		this.eventType = EventType.valueOf(eventType);
 		this.flightId = flightId;
 		this.actualTime = setActualTime();
 	}
 	
 	private LocalTime setActualTime(){
-		if (this.eventType == EventType.ARRIVAL) {
-			this.actualTime = scheduledTime.plusMinutes(Airport.ARR_RESERVE_TIME);
-		} else {
-			this.actualTime = scheduledTime.plusMinutes(Airport.DEP_RESERVE_TIME);
-		}
+		actualTime = scheduledTime;
 		return actualTime;
 	}
 	
@@ -35,7 +31,7 @@ public class Flight implements Event {
 
 	@Override
 	public String toString() {
-		return scheduledTime + "|" + eventType + "|" + flightId;
+		return actualTime + "|" + scheduledTime + "|" + eventType + "|" + flightId;
 	}
 
 	@Override
@@ -51,5 +47,13 @@ public class Flight implements Event {
 	@Override
 	public LocalTime getScheduledTime() {
 		return this.scheduledTime;
+	}
+
+	@Override
+	public int compareTo(Flight flight) {
+		if (flight.eventType == EventType.ARRIVAL) {
+			return 1;
+		}
+		return -1;
 	}
 }
