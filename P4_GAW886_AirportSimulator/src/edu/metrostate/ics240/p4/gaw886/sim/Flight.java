@@ -1,9 +1,7 @@
 package edu.metrostate.ics240.p4.gaw886.sim;
 
 import java.time.LocalTime;
-import java.util.Collection;
 
-import edu.metrostate.ics240.p4.sim.Airport;
 import edu.metrostate.ics240.p4.sim.Event;
 
 public class Flight implements Event, Comparable<Flight> {

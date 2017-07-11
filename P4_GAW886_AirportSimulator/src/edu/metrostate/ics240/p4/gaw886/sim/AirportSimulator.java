@@ -1,20 +1,11 @@
 package edu.metrostate.ics240.p4.gaw886.sim;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalTime;
-import java.util.Iterator;
 import java.util.PriorityQueue;
-import java.util.Scanner;
-
-import javax.sound.sampled.Line;
-
 import edu.metrostate.ics240.p4.sim.Airport;
 import edu.metrostate.ics240.p4.sim.Event;
-import edu.metrostate.ics240.p4.sim.Event.EventType;
 
 public class AirportSimulator extends Airport {
 	private int numRunways;
