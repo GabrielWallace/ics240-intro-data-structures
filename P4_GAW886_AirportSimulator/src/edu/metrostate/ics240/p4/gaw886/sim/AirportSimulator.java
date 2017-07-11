@@ -56,7 +56,6 @@ public class AirportSimulator extends Airport {
 		runways = new Runway[numRunways];
 		for (int i = 0; i < numRunways; i++) {
 			runways[i] = new Runway();
-			System.out.println(runways[i].getAvailability());
 		}
 	}
 
