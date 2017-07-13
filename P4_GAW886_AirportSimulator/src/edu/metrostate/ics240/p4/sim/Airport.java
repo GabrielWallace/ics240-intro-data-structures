@@ -12,7 +12,7 @@ public abstract class Airport {
 	public static final int ARR_RESERVE_TIME = 2;
 	public static final int DEP_RESERVE_TIME = 3;
 	public static final int SIM_MINUTES = 60;
-	public static final long SEED = 20170731201L;
+	public static final long SEED = 20170620001L;
 	public static final Random RAND = new Random(SEED);
 	public static final String DELIM = "\\|";
 

@@ -10,9 +10,9 @@ public class AirportSimTests {
 
 	@Test
 	public void testScenarioOne() {
-		Airport.genEventFile("data\\airportSim_01.txt");
+		//Airport.genEventFile("data\\airportSim_01.txt");
 		Event[] events;
-		AirportSimulator as = new AirportSimulator(1);
+		AirportSimulator as = new AirportSimulator(1, 2, 2);
 		as.processEventFile("data\\airportSim_01.txt");
 		as.testMethod();
 		/*events = as.getFlightsHandled();

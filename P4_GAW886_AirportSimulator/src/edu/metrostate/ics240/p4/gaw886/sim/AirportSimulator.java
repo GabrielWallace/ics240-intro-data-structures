@@ -5,15 +5,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.PriorityQueue;
 
-import javax.swing.text.StyledEditorKit.ForegroundAction;
-
 import edu.metrostate.ics240.p4.sim.Airport;
 import edu.metrostate.ics240.p4.sim.Event;
 
 public class AirportSimulator extends Airport {
 	private int numRunways;
-	private int arrivalReserveTime;
-	private int departureReserveTime;
+	protected int arrivalReserveTime;
+	protected int departureReserveTime;
+	private int simTime;
 	private Flight flight;
 	private PriorityQueue<Flight> flightQueue = new PriorityQueue<>();
 	private Runway[] runways;
@@ -26,8 +25,9 @@ public class AirportSimulator extends Airport {
 			this.numRunways = numRunways;
 			this.arrivalReserveTime = ARR_RESERVE_TIME;
 			this.departureReserveTime = DEP_RESERVE_TIME;
+			createRunways();
 		}
-		createRunways();
+		
 	}
 
 	public AirportSimulator(int numRunways, int arrivalReserveTime, int departureReserveTime) {
@@ -38,33 +38,36 @@ public class AirportSimulator extends Airport {
 			this.numRunways = numRunways;
 			this.arrivalReserveTime = arrivalReserveTime;
 			this.departureReserveTime = departureReserveTime;
+			createRunways();
 		}
-		createRunways();
 	}
 
 	public void processEventFile(String filename) {
 		String line;
+		Flight flight;
 		String[] flightTuple;
+		int lineNum = 0;
 		try (BufferedReader reader = new BufferedReader(new FileReader(filename));) {
 			while ((line = reader.readLine()) != null) {
 				flightTuple = line.split(DELIM);
-				flightQueue.offer(new Flight(flightTuple[0], flightTuple[1], flightTuple[2]));
+				flightQueue.offer(flight = new Flight(flightTuple[0], flightTuple[1], flightTuple[2], lineNum));
+				flight.setRunwayResTime(this);
+				lineNum++;
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 		handleFlights();
 	}
-
-	private void handleFlights() {
-		
-	}
-
+	
 	private void createRunways() {
 		runways = new Runway[numRunways];
 		for (int i = 0; i < numRunways; i++) {
 			runways[i] = new Runway();
 		}
+	}
+
+	private void handleFlights() {
 	}
 
 	public Event[] getFlightsHandled() {
@@ -77,7 +80,7 @@ public class AirportSimulator extends Airport {
 	}
 	
 	public void testMethod() {
-		for (int i = flightQueue.size(); i > 0; i--) {
+		while (!flightQueue.isEmpty()) {
 			System.out.println(flightQueue.poll());
 		}
 	}
