@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.PriorityQueue;
+
+import javax.swing.text.StyledEditorKit.ForegroundAction;
+
 import edu.metrostate.ics240.p4.sim.Airport;
 import edu.metrostate.ics240.p4.sim.Event;
 
@@ -45,11 +48,16 @@ public class AirportSimulator extends Airport {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filename));) {
 			while ((line = reader.readLine()) != null) {
 				flightTuple = line.split(DELIM);
-				flightQueue.add(new Flight(flightTuple[0], flightTuple[1], flightTuple[2]));
+				flightQueue.offer(new Flight(flightTuple[0], flightTuple[1], flightTuple[2]));
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+		handleFlights();
+	}
+
+	private void handleFlights() {
+		
 	}
 
 	private void createRunways() {
@@ -66,5 +74,11 @@ public class AirportSimulator extends Airport {
 			events[i++] = flight;
 		}
 		return events;
+	}
+	
+	public void testMethod() {
+		for (int i = flightQueue.size(); i > 0; i--) {
+			System.out.println(flightQueue.poll());
+		}
 	}
 }

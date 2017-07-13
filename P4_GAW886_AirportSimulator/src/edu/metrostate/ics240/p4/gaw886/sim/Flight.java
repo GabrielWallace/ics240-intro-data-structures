@@ -2,6 +2,8 @@ package edu.metrostate.ics240.p4.gaw886.sim;
 
 import java.time.LocalTime;
 
+import javax.print.attribute.standard.MediaSize.Other;
+
 import edu.metrostate.ics240.p4.sim.Event;
 
 public class Flight implements Event, Comparable<Flight> {
@@ -48,10 +50,20 @@ public class Flight implements Event, Comparable<Flight> {
 	}
 
 	@Override
-	public int compareTo(Flight flight) {
-		if (flight.eventType == EventType.ARRIVAL) {
-			return 1;
+	public int compareTo(Flight other) {
+		int answer = 1;
+		if (other == null) {
+			answer = -1;
+		} else if (this.eventType == EventType.ARRIVAL && other.eventType == EventType.DEPARTURE) {
+			answer = -1;
+		} else if (this.eventType == EventType.DEPARTURE && other.eventType == EventType.ARRIVAL) {
+			answer = 1;
+		} else if (this == other) {
+			answer = this.getScheduledTime().compareTo(other.getScheduledTime());
+			if (answer == 0) {
+				// Somehow break the tie?
+			}
 		}
-		return -1;
+		return answer;
 	}
 }
