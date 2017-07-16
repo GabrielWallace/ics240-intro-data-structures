@@ -3,6 +3,7 @@ package edu.metrostate.ics240.p4.gaw886.sim;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.PriorityQueue;
 
 import edu.metrostate.ics240.p4.sim.Airport;
@@ -12,7 +13,7 @@ public class AirportSimulator extends Airport {
 	private int numRunways;
 	protected int arrivalReserveTime;
 	protected int departureReserveTime;
-	private int simTime;
+	protected LocalTime simTime;
 	private Flight flight;
 	private PriorityQueue<Flight> flightQueue = new PriorityQueue<>();
 	private Runway[] runways;
@@ -50,9 +51,9 @@ public class AirportSimulator extends Airport {
 		try (BufferedReader reader = new BufferedReader(new FileReader(filename));) {
 			while ((line = reader.readLine()) != null) {
 				flightTuple = line.split(DELIM);
-				flightQueue.offer(flight = new Flight(flightTuple[0], flightTuple[1], flightTuple[2], lineNum));
-				flight.setRunwayResTime(this);
+				flight = new Flight(flightTuple[0], flightTuple[1], flightTuple[2], lineNum);
 				lineNum++;
+				flightQueue.add(flight);
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
@@ -68,20 +69,28 @@ public class AirportSimulator extends Airport {
 	}
 
 	private void handleFlights() {
+		events = new Event[flightQueue.size()];
+		Flight thisFlight = flightQueue.poll();
+		simTime = LocalTime.parse("00:00");
+		int eventsInc = 0;
+		for (int simTimeInc = 0; simTimeInc < SIM_MINUTES; simTimeInc++)
+			for (Runway runway : runways) {
+				if (runway.isAvailable() && thisFlight.getScheduledTime() == simTime) {
+					//flight.setActualTime(simTime.plusMinutes(i));
+					simTime = simTime.plusMinutes(simTimeInc);
+					runway.assignFlight(thisFlight, simTime);
+				} else if (!runway.isAvailable() || thisFlight.getScheduledTime() != simTime) {
+					flightQueue.offer(thisFlight);
+				}
+				runway.decreaseResTime();
+			}
 	}
 
 	public Event[] getFlightsHandled() {
-		events = new Event[flightQueue.size()];
 		int i = 0;
 		for (Flight flight : flightQueue) {
 			events[i++] = flight;
 		}
 		return events;
-	}
-	
-	public void testMethod() {
-		while (!flightQueue.isEmpty()) {
-			System.out.println(flightQueue.poll());
-		}
 	}
 }

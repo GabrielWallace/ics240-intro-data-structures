@@ -12,9 +12,8 @@ public class AirportSimTests {
 	public void testScenarioOne() {
 		//Airport.genEventFile("data\\airportSim_01.txt");
 		Event[] events;
-		AirportSimulator as = new AirportSimulator(1, 2, 2);
+		AirportSimulator as = new AirportSimulator(10, 2, 2);
 		as.processEventFile("data\\airportSim_01.txt");
-		as.testMethod();
 		/*events = as.getFlightsHandled();
 		assertEquals(21, events.length);
 		for (Event event : events) {

@@ -12,15 +12,15 @@ public class Flight implements Event, Comparable<Flight> {
 	protected int runwayResTime = 0;
 
 	public Flight(String scheduledTime, String eventType, String flightId, int eventFileOrder) {
+		this.actualTime = null;
 		this.scheduledTime = LocalTime.parse(scheduledTime);
 		this.eventType = EventType.valueOf(eventType);
-		this.flightId = flightId;
+		this.flightId = flightId;getClass();
 		this.eventFileLineNum = eventFileOrder;
-		this.actualTime = setActualTime();
 	}
 
-	private LocalTime setActualTime() {
-		actualTime = scheduledTime;
+	public LocalTime setActualTime(LocalTime actualTime) {
+		this.actualTime = actualTime;
 		return actualTime;
 	}
 	
@@ -34,7 +34,6 @@ public class Flight implements Event, Comparable<Flight> {
 		} else {
 			this.runwayResTime = as.departureReserveTime;
 		}
-		System.out.println(runwayResTime);
 	}
 
 	@Override
@@ -44,7 +43,7 @@ public class Flight implements Event, Comparable<Flight> {
 
 	@Override
 	public String toString() {
-		return actualTime + "|" + scheduledTime + "|" + eventType + "|" + flightId + "|" + eventFileLineNum;
+		return actualTime + "|" + scheduledTime + "|" + eventType + "|" + flightId;
 	}
 
 	@Override
@@ -73,7 +72,7 @@ public class Flight implements Event, Comparable<Flight> {
 			answer = this.getScheduledTime().compareTo(other.getScheduledTime());
 			if (answer == 0) {
 				if (this.eventFileLineNum < other.eventFileLineNum) {
-					answer = 1;
+					answer = -1;
 				}
 			}
 		}
