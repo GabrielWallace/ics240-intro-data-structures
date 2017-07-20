@@ -15,38 +15,39 @@ import edu.metrostate.ics240.p5.morse.TreeNode;
 //import edu.metrostate.ics240.p5.morse.TreeNode;
 
 public class MorseCode {
-	
+
 	static {
 		encode(new String());
 		decode(new String());
 	}
 
-/*	public static void main(String[] args) {
-		getEncodingMap();
-		System.out.println(encode("Hello, World!"));
-	}*/
+	/*
+	 * public static void main(String[] args) { getEncodingMap();
+	 * System.out.println(encode("Hello, World!")); }
+	 */
 
 	public static String encode(String text) {
 		String morseEncodedString = null;
 		String allowedChars = "[a-zA-Z_0-9 _.,?!():;@]*";
 		Pattern p = Pattern.compile(allowedChars);
 		Matcher matcher = p.matcher(text);
+
 		if (text == null) {
 			throw new NullPointerException("Text cannot be null");
 		}
-		
+
 		if (!matcher.matches()) {
 			int illegalCharIdx = text.lastIndexOf(allowedChars);
 			throw new IllegalArgumentException(String.format("Illegal character encountered: [%s]", text));
 		} else {
-			
+
 			Map<Character, String> encodingMap = getEncodingMap();
 			encodingMap.put('/', "/");
 			StringBuilder morseBuilder = new StringBuilder();
-			char[] plainTxtChars = text.replaceAll("\\s", "/").toUpperCase().toCharArray();
+			char[] plainTxtKeys = text.replaceAll("\\s", "/").toUpperCase().toCharArray();
 			String morseValue = null;
 
-			for (char plainTxtKey : plainTxtChars) {
+			for (char plainTxtKey : plainTxtKeys) {
 				if (encodingMap.containsKey(plainTxtKey)) {
 					morseValue = encodingMap.get(plainTxtKey);
 					morseBuilder.append(morseValue + " ");
@@ -73,7 +74,7 @@ public class MorseCode {
 		Character key = null;
 		String value = null;
 		String[] keyValueArr = new String[2];
-		
+
 		try (BufferedReader inputReader = new BufferedReader(inputFile);) {
 			while ((line = inputReader.readLine()) != null) {
 				keyValueArr = line.split("\\t");
