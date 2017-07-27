@@ -1,84 +1,66 @@
 package edu.metrostate.ics240.p5.gaw886.morse.tests;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import org.junit.Test;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.junit.Test;
 import edu.metrostate.ics240.p5.gaw886.morse.MorseCode;
-import edu.metrostate.ics240.p5.gaw886.morse.MorseNode;
-import edu.metrostate.ics240.p5.gaw886.morse.MorseTree;
+import edu.metrostate.ics240.p5.gaw886.morse.DecodeTree;
+import edu.metrostate.ics240.p5.gaw886.morse.EncodeMap;
 
 public class MorseTester {
 	@Test
-	public void testEncoding() {
-		MorseCode.encode("Hello, World.");
-		MorseCode.encode("Hello, World?");
-		MorseCode.encode("Hello, World!");
-		MorseCode.encode("Hello, World");
-		MorseCode.encode("Hello, World)");
-		MorseCode.encode("Hello, World:");
-		MorseCode.encode("Hello, World;");
-		MorseCode.encode("Hello, World@");
-		System.out.println(MorseCode.encode("Jackdaws love my big sphinx of quartz"));
-
+	public void testBuildTree() {
 		try {
-			MorseCode.encode("Hello, World$"); // illegal value
-			fail("Expected exception");
-		} catch (IllegalArgumentException iae) {
-			// expected
+			DecodeTree foo = new DecodeTree().buildDecodingTree();
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
-
+	
 	@Test
-	public void testTree() {
-		MorseTree<Character> morseNode = new MorseTree<>();
+	public void testEncoding() {
+		String line = new String();
+		String filePath = new String("/data/MorseCode.txt");
+		String[] entry;
+		InputStreamReader inputFile = new InputStreamReader(MorseCode.class.getResourceAsStream(filePath));
+		try (BufferedReader inputReader = new BufferedReader(inputFile);) {
+			while ((line = inputReader.readLine()) != null) {
+				entry = new String[2];
+				entry = line.split("\\t");
+				//System.out.println(MorseCode.encode(entry[0]));
+				assertEquals(MorseCode.encode(entry[0]), entry[1]);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(MorseCode.encode("Hello, World!"));
+		assertEquals("**** * *-** *-** --- --**--/*-- --- *-* *-** -** -*-*--", MorseCode.encode("Hello, World!"));
+	}
+	
+	@Test
+	public void testDecoding() {
+		String line = new String();
+		String filePath = new String("/data/MorseCode.txt");
+		String[] entry;
+		InputStreamReader inputFile = new InputStreamReader(MorseCode.class.getResourceAsStream(filePath));
+		try (BufferedReader inputReader = new BufferedReader(inputFile);) {
+			while ((line = inputReader.readLine()) != null) {
+				entry = new String[2];
+				entry = line.split("\\t");
+				//System.out.println(MorseCode.decode(entry[1]));
+				assertEquals(MorseCode.decode(entry[1]), entry[0]);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-		 	morseNode.insert('0',"-----");
-	        morseNode.insert('1',"·----");
-	        morseNode.insert('2',"··---");
-	        morseNode.insert('3',"···--");
-	        morseNode.insert('4',"····-");
-	        morseNode.insert('5',"·····");
-	        morseNode.insert('6',"-····");
-	        morseNode.insert('7',"--···");
-	        morseNode.insert('8',"---··");
-	        morseNode.insert('9',"----·");
-	        morseNode.insert('A',"·-");
-	        morseNode.insert('B',"-···");
-	        morseNode.insert('C',"-·-·");
-	        morseNode.insert('D',"-··");
-	        morseNode.insert('E',"·");
-	        morseNode.insert('F',"··-·");
-	        morseNode.insert('G',"--·");
-	        morseNode.insert('H',"····");
-	        morseNode.insert('I',"··");
-	        morseNode.insert('J',"·---");
-	        morseNode.insert('K',"-·-");
-	        morseNode.insert('L',"·-··");
-	        morseNode.insert('M',"--");
-	        morseNode.insert('N',"-·");
-	        morseNode.insert('O',"---");
-	        morseNode.insert('P',"·--·");
-	        morseNode.insert('Q',"--·-");
-	        morseNode.insert('R',"·-·");
-	        morseNode.insert('S',"···");
-	        morseNode.insert('T',"-");
-	        morseNode.insert('U',"··-");
-	        morseNode.insert('V',"···-");
-	        morseNode.insert('W',"·--");
-	        morseNode.insert('X',"-··-");
-	        morseNode.insert('Y',"-·--");
-	        morseNode.insert('Z',"--··");
-	        morseNode.insert('.',"*-*-*-");
-	        morseNode.insert(',',"--**--");
-	        morseNode.insert('?',"**--**");
-	        morseNode.insert('!',"-*-*--");
-	        morseNode.insert('(',"-*--*");
-	        morseNode.insert(')',"-*--*-");
-	        morseNode.insert(':',"---***");
-	        morseNode.insert(';',"-*-*-*");
-	        morseNode.insert('@',"*--*-*");
-	        
-	       morseNode.printInOrder();
+		//assertEquals("HELLO, WORLD!", MorseCode.decode("**** * *-** *-** --- --**--"));
 	}
 }
