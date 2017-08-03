@@ -9,8 +9,13 @@ import java.util.Map;
 public class EncodeMap {
 	Map<Character, String> encoder;
 	
+	/**
+	 * Builds the map that is used to encode plain text English to a string of Morse Code
+	 * @return <code>encoder</code> a <code>HashMap<>()</code> that holds the key value pairs of each plain text character and its
+	 * corresponding Morse character
+	 */
 	public Map<Character, String> buildMap() {
-		String filePath = new String("/data/MorseCode.txt");
+		String filePath = new String("/data/morseCode.txt");
 		InputStreamReader inputFile = new InputStreamReader(MorseCode.class.getResourceAsStream(filePath));
 		HashMap<Character, String> encoder = new HashMap<>();
 		String line = new String();

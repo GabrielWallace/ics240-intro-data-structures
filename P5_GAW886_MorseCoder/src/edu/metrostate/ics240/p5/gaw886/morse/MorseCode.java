@@ -1,17 +1,32 @@
 package edu.metrostate.ics240.p5.gaw886.morse;
 
 import java.util.Map;
+
 import edu.metrostate.ics240.p5.gaw886.morse.DecodeTree.MorseNode;
 import edu.metrostate.ics240.p5.morse.TreeNode;
 
 public class MorseCode {
+	
+	private static Map<Character, String> encoder;
+	private static MorseNode decoder;
+	
+	static {
+		encoder = new EncodeMap().buildMap();
+		new DecodeTree().buildDecodingTree(encoder);
+		decoder = DecodeTree.getRoot();
+	}
 
+	/**
+	 * Takes a string of plain text English and encodes it into a string of Morse Code using a <code>StringBuffer()</code>
+	 * to build the string
+	 * @param <code>text</code> the text to be encoded to Morse Code
+	 * @return <code>morseBuilder</code> using <code>StringBuffer()</code> return the new string of Morse Code
+	 */
 	public static String encode(String text) {
-		Map<Character, String> encoder = getEncodingMap();
-		String morseEncodedString = new String();
 		if (text == null) {
 			throw new NullPointerException("Text cannot be null");
 		} else {
+			Map<Character, String> encoder = getEncodingMap();
 			StringBuffer morseBuilder = new StringBuffer();
 			char[] plainTxtKeys = new char[text.length()];
 			plainTxtKeys = text.toUpperCase().toCharArray();
@@ -32,47 +47,48 @@ public class MorseCode {
 					}
 
 				}
-				morseEncodedString = morseBuilder.toString().replaceAll(" /", "/").trim();
 			}
-			return morseEncodedString;
+			return morseBuilder.toString().replaceAll(" /", "/").trim();
 		}
 	}
 
+	/**
+	 * Decodes a string of Morse Code to plain text English using a <code>StringBuffer()</code> to
+	 * build the string
+	 * @param code the string of Morse Code to be decoded
+	 * @return <code>englishBuilder</code> as the new string of plain text English
+	 */
 	public static String decode(String code) {
-		TreeNode<Character> decodeTree = getDecodingTree();
 		if (code == null) {
 			throw new NullPointerException("Code cannot be null");
-		}
-		String path = code;
-		String nodeKey = "";
-		TreeNode<Character> currNode = decodeTree;
+		} else {
+			String[] morseWords = code.split("/");
+			StringBuffer englishBuilder = new StringBuffer();
 
-		for (int i = 0; i < path.length(); i++) {
-			nodeKey = path.substring(i, i + 1);
-			System.out.println(nodeKey);
-			if (nodeKey.equals("-")) {
-				if (((MorseNode) currNode).hasLeftChild()) {
-					currNode = currNode.getLeftChild();
-				} else {
-					throw new RuntimeException("Code pattern not found.");
+			for (int mwi = 0; mwi < morseWords.length; mwi++) {
+				String[] morseLetters = morseWords[mwi].split(" ");
+				for (int mli = 0; mli < morseLetters.length; mli++) {
+					englishBuilder.append(decoder.decodeLetter(morseLetters[mli], englishBuilder));
 				}
-			} else if (nodeKey.equals("*")) {
-				if (((MorseNode) currNode).hasRightChild()) {
-					currNode = currNode.getRightChild();
-				} else {
-					throw new RuntimeException("Code pattern not found. ");
-				}
-				//System.out.println(currNode.getValue().toString());
+				englishBuilder.append(" ");
 			}
+			return englishBuilder.toString().toUpperCase().trim();
 		}
-		return currNode.getValue().toString();
 	}
 
+	/**
+	 * Returns a new Map used for the encoding process and building the decoding tree
+	 * @return new <code>EncodeMap()</code> 
+	 */
 	public static Map<Character, String> getEncodingMap() {
-		return new EncodeMap().buildMap();
+		return encoder;
 	}
 
+	/**
+	 * Returns the root node of the decoding tree used in the decoding process.
+	 * @return new <code>DecodeTree</code> root node
+	 */
 	public static TreeNode<Character> getDecodingTree() {
-		return new DecodeTree().buildDecodingTree().getRoot();
+		return decoder;
 	}
 }

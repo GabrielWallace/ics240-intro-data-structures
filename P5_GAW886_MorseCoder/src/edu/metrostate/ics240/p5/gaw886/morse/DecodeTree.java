@@ -6,19 +6,13 @@ import edu.metrostate.ics240.p5.morse.TreeNode;
 
 
 public class DecodeTree {	
+	
 	static class MorseNode implements TreeNode<Character>{
 		protected MorseNode parent;
 		private TreeNode<Character> leftChild;
 		private TreeNode<Character> rightChild;
 		private Character value;
 
-		public MorseNode() {
-		}
-		
-		public MorseNode(Character key) {
-            setValue(key);
-        } 
-		
 		private void setParent (MorseNode n) {
 	        parent = n;
 	    }
@@ -31,19 +25,35 @@ public class DecodeTree {
 			this.rightChild = newNode;
 		}
 		
+		/**
+		 * Helper method to check the current node for a left child node
+		 * @return true if left child is present else false
+		 */
 		public boolean hasLeftChild () {
             return (leftChild != null);
         }
-
+		
+		/**
+		 * Helper method to check the current node for a right child node
+		 * @return true if right child is present else false
+		 */
         public boolean hasRightChild () {
             return (rightChild != null);
         }
 		
+        /**
+         * Method to return the current node's left child node
+         * @return this nodes left child node
+         */
 		@Override
 		public TreeNode<Character> getLeftChild() {
 			return this.leftChild;
 		}
 
+		/**
+         * Method to return the current node's right child node
+         * @return this nodes right child node
+         */
 		@Override
 		public TreeNode<Character> getRightChild() {
 			return this.rightChild;
@@ -53,18 +63,56 @@ public class DecodeTree {
             value = key;
         }
 
+		/**
+		 * Returns the value of this node
+		 */
 		@Override
 		public Character getValue() {
 			return this.value;
 		}
+		
+	    /**
+	     * Takes a single Morse code letter and searches the <code>DecodeTree()</code> to find its corresponding
+	     * plain text English counterpart
+	     * @param code the Morse code letter to be decoded
+	     * @return The node value containing the plain text English counterpart to the Morse letter
+	     */
+	 	public String decodeLetter(String code, StringBuffer sb) {
+	 		TreeNode<Character> currNode = getRoot();
+	 		String morseLetter = code;
+	 		String key = "";
+
+	 		for (int i = 0; i < morseLetter.length(); i++) {
+	 			key = morseLetter.substring(i, i + 1);
+	 			if (key.equals("-")) {
+	 				if (((MorseNode) currNode).hasLeftChild()) {
+	 					currNode = currNode.getLeftChild();
+	 				} else {
+	 					throw new IllegalArgumentException(
+	 							String.format("Invalid code encountered %s[%s]", sb.toString().trim(),code));
+	 				}
+	 			} else if (key.equals("*")) {
+	 				if (((MorseNode) currNode).hasRightChild()) {
+	 					currNode = currNode.getRightChild();
+	 				} else {
+	 					throw new IllegalArgumentException(
+	 							String.format("Invalid code encountered %s[%s]", sb.toString().trim(),code));
+	 				}
+	 			}
+	 		}
+	 		return currNode.getValue().toString();
+	 	}
+		
 	}
-    MorseNode root = new MorseNode();
+	
+    static MorseNode root = new MorseNode();
     DecodeTree decodeTree;
-    public MorseNode getRoot() {
+    
+    public static MorseNode getRoot() {
         return root;
     }
-	
-    public void insert (Character character, String code) {
+    
+    private void insert (Character character, String code) {
         Character value = character;
         String path = code;
         String nodeKey = "";
@@ -96,8 +144,13 @@ public class DecodeTree {
         currNode.setValue(value);
     }
     
-    public DecodeTree buildDecodingTree() {
-    	Map<Character, String> dict = new EncodeMap().buildMap();
+    /**
+     * This method builds the actual Morse Decoder Tree based off of the values in the <code>EncodeMap()</code>
+     * @return a new Binary Tree holding all of the plain text English characters and following the rules of 
+     * "-" (dashes) to the left and "*" dots to the right while traversing and building the tree
+     */
+    public DecodeTree buildDecodingTree(Map<Character, String> encoder) {
+    	Map<Character, String> dict = encoder;
 		DecodeTree decodingTree = new DecodeTree();
 		for(Map.Entry<Character, String> entry : dict.entrySet()) {
 			(decodingTree).insert(entry.getKey(), entry.getValue());
